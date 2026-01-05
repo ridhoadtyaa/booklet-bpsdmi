@@ -1,98 +1,91 @@
-import React, { useState, useEffect } from 'react'
-import HTMLFlipBook from "react-pageflip";
+import HTMLFlipBook from 'react-pageflip'
+import React from 'react'
+
+const modules = import.meta.glob('/public/images/*.png', {
+	eager: true,
+})
+
+const images = Object.keys(modules)
+	.sort((a, b) => {
+		const na = Number(a.match(/(\d+)\.png$/)[1])
+		const nb = Number(b.match(/(\d+)\.png$/)[1])
+		return na - nb
+	})
+	.map(image => image.replace('/public', ''))
 
 function Book() {
+	const bookRef = React.useRef(null)
 
-  const pokemonData = [
-    {
-      id: "006",
-      name: "Charizard",
-      types: ["Fire", "Flying"],
-      description: "Flies in search of strong opponents. Breathes extremely hot fire that melts anything, but never uses it on weaker foes."
-    },
-    {
-      id: "025",
-      name: "Pikachu",
-      types: ["Electric"],
-      description: "When Pikachu meet, they touch tails to exchange electricity as a greeting."
-    },
-    {
-      id: "125",
-      name: "Electabuzz",
-      types: ["Electric"],
-      description: "Often kept at power plants to regulate electricity. Competes with others to attract lightning during storms."
-    },
-    {
-      id: "185",
-      name: "Sudowoodo",
-      types: ["Rock"],
-      description: "Despite looking like a tree, its body is more like rock. Hates water and hides when it rains."
-    },
-    {
-      id: "448",
-      name: "Lucario",
-      types: ["Fighting", "Steel"],
-      description: "Can read thoughts and movements by sensing others' aura. No foe can hide from Lucario."
-    },
-    {
-      id: "658",
-      name: "Greninja",
-      types: ["Water", "Dark"],
-      description: "Creates throwing stars from compressed water that can slice through metal when thrown at high speed."
-    },
-    {
-      id: "491",
-      name: "Darkrai",
-      types: ["Dark"],
-      description: "A legendary Pokémon that appears on moonless nights, putting people to sleep and giving them nightmares."
-    }
-  ];
+	const totalPages = images.length
+	const [page, setPage] = React.useState(1) // 1-based (buat manusia)
+	const [inputPage, setInputPage] = React.useState('1')
 
-  return (
-    <HTMLFlipBook 
-      width={370} 
-      height={500}
-      maxShadowOpacity={0.5}
-      drawShadow={true}
-      showCover={true}
-      size='fixed'
-    >
-      <div className="page" style={{ background: 'transparent' }}>
-        <div className="page-content cover">
-          <img 
-            src="https://upload.wikimedia.org/wikipedia/commons/9/98/International_Pok%C3%A9mon_logo.svg" 
-            alt="Pokémon Logo" 
-            className="pokemon-logo"
-          />
-        </div>
-      </div>
+	const onFlip = e => {
+		// e.data = page index (0-based)
+		const current = (e && e.data != null ? e.data : 0) + 1
+		setPage(current)
+		setInputPage(String(current))
+	}
 
-      {pokemonData.map((pokemon) => (
-        <div className="page" key={pokemon.id}>
-          <div className="page-content">
-            <div className="pokemon-container">
-              <img 
-                src={`https://www.pokemon.com/static-assets/content-assets/cms2/img/pokedex/full/${pokemon.id}.png`} 
-                alt={pokemon.name} 
-              />
-              <div className="pokemon-info">
-                <h2 className="pokemon-name">{pokemon.name}</h2>
-                <p className="pokemon-number">#{pokemon.id}</p>
-                <div>
-                  {pokemon.types.map((type) => (
-                    <span key={type} className={`pokemon-type type-${type.toLowerCase()}`}>
-                      {type}
-                    </span>
-                  ))}
-                </div>
-                <p className="pokemon-description">{pokemon.description}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      ))}
-    </HTMLFlipBook>
-  );
+	const flipTo = targetPage1Based => {
+		const safe = Math.min(Math.max(targetPage1Based, 1), totalPages)
+		bookRef.current?.pageFlip()?.flip(safe - 1) // balik ke 0-based
+	}
+
+	const prev = () => {
+		bookRef.current?.pageFlip()?.flipPrev()
+	}
+
+	const next = () => {
+		bookRef.current?.pageFlip()?.flipNext()
+	}
+
+	const submitGoTo = e => {
+		e.preventDefault()
+		const n = Number(inputPage)
+		if (Number.isNaN(n)) return
+		flipTo(n)
+	}
+
+	return (
+		<>
+			<div className="container">
+				<HTMLFlipBook width={595} height={420} maxShadowOpacity={0.5} drawShadow={true} showCover={true} size="fixed" ref={bookRef} onFlip={onFlip}>
+					{images.map(img => (
+						<div className="page" key={img}>
+							<img src={img} className="img-page" />
+						</div>
+					))}
+				</HTMLFlipBook>
+			</div>
+
+			<div className="pagination-container">
+				<div className="pagination">
+					<button onClick={prev} disabled={page <= 1}>
+						Prev
+					</button>
+
+					<div className="text-white">
+						Page <b>{page}</b> / {totalPages}
+					</div>
+
+					<button onClick={next} disabled={page >= totalPages}>
+						Next
+					</button>
+				</div>
+
+				<div className="go-to">
+					<form onSubmit={submitGoTo} style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+						<label style={{ fontSize: 12 }} className="text-white">
+							Go to:
+						</label>
+						<input value={inputPage} onChange={e => setInputPage(e.target.value)} inputMode="numeric" style={{ width: 50, padding: '4px 6px' }} />
+						<button type="submit">Go</button>
+					</form>
+				</div>
+			</div>
+		</>
+	)
 }
 
 export default Book

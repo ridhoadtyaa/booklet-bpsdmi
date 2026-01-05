@@ -1,13 +1,13 @@
-import React from 'react';
-import Book from './components/Book';
-import './App.css';
+import React from 'react'
+import Book from './components/Book'
+import './App.css'
 
 function App() {
-  return (
-    <div className="container">
-        <Book />
-    </div>
-  );
+	return (
+		// <div className="container">
+		<Book />
+		// </div>
+	)
 }
 
-export default App;
+export default App
