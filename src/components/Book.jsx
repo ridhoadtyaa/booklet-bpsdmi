@@ -1,5 +1,6 @@
 import HTMLFlipBook from 'react-pageflip'
 import React from 'react'
+import { useMediaQuery } from '../hooks/use-media-query'
 
 const modules = import.meta.glob('/public/images/*.png', {
 	eager: true,
@@ -47,10 +48,31 @@ function Book() {
 		flipTo(n)
 	}
 
+	const isSmall = useMediaQuery('(max-width: 600px)')
+	console.log(isSmall)
+
+	const BASE_W = 595
+	const BASE_H = 420
+	const RATIO = BASE_H / BASE_W // keep proportions
+
+	// “dikurangin dikit” pas kecil
+	const width = isSmall ? 350 : BASE_W
+	const height = Math.round(width * RATIO)
+	console.log(width)
+
 	return (
 		<>
 			<div className="container">
-				<HTMLFlipBook width={595} height={420} maxShadowOpacity={0.5} drawShadow={true} showCover={true} size="fixed" ref={bookRef} onFlip={onFlip}>
+				<HTMLFlipBook
+					width={width}
+					height={height}
+					maxShadowOpacity={0.5}
+					drawShadow={true}
+					showCover={true}
+					size="fixed"
+					ref={bookRef}
+					onFlip={onFlip}
+				>
 					{images.map(img => (
 						<div className="page" key={img}>
 							<img src={img} className="img-page" />
