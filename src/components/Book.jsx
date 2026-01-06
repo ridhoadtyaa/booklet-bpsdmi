@@ -2,14 +2,14 @@ import HTMLFlipBook from 'react-pageflip'
 import React from 'react'
 import { useMediaQuery } from '../hooks/use-media-query'
 
-const modules = import.meta.glob('/public/images/*.png', {
+const modules = import.meta.glob('/public/images/*.webp', {
 	eager: true,
 })
 
 const images = Object.keys(modules)
 	.sort((a, b) => {
-		const na = Number(a.match(/(\d+)\.png$/)[1])
-		const nb = Number(b.match(/(\d+)\.png$/)[1])
+		const na = Number(a.match(/(\d+)\.webp$/)[1])
+		const nb = Number(b.match(/(\d+)\.webp$/)[1])
 		return na - nb
 	})
 	.map(image => image.replace('/public', ''))
