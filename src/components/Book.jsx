@@ -14,6 +14,8 @@ const images = Object.keys(modules)
 	})
 	.map(image => image.replace('/public', ''))
 
+console.log(images)
+
 function Book() {
 	const bookRef = React.useRef(null)
 
