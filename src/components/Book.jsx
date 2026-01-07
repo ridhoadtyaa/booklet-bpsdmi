@@ -53,10 +53,10 @@ function Book() {
 	const goToBab = bab => {
 		const mapBab = {
 			1: 6,
-			2: 20,
-			3: 26,
-			4: 34,
-			5: 40,
+			2: 22,
+			3: 28,
+			4: 36,
+			5: 42,
 		}
 		console.log(bab, mapBab[bab])
 		flipTo(mapBab[bab])
