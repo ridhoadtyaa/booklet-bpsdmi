@@ -14,8 +14,6 @@ const images = Object.keys(modules)
 	})
 	.map(image => image.replace('/public', ''))
 
-console.log(images)
-
 function Book() {
 	const bookRef = React.useRef(null)
 
@@ -58,7 +56,6 @@ function Book() {
 			4: 36,
 			5: 42,
 		}
-		console.log(bab, mapBab[bab])
 		flipTo(mapBab[bab])
 	}
 
