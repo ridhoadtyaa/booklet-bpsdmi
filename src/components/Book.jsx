@@ -50,8 +50,19 @@ function Book() {
 		flipTo(n)
 	}
 
+	const goToBab = bab => {
+		const mapBab = {
+			1: 6,
+			2: 20,
+			3: 26,
+			4: 34,
+			5: 40,
+		}
+		console.log(bab, mapBab[bab])
+		flipTo(mapBab[bab])
+	}
+
 	const isSmall = useMediaQuery('(max-width: 600px)')
-	console.log(isSmall)
 
 	const BASE_W = 595
 	const BASE_H = 420
@@ -60,7 +71,6 @@ function Book() {
 	// “dikurangin dikit” pas kecil
 	const width = isSmall ? 350 : BASE_W
 	const height = Math.round(width * RATIO)
-	console.log(width)
 
 	return (
 		<>
@@ -110,11 +120,11 @@ function Book() {
 			</div>
 
 			<div className="go-bab">
-				<img className="svg-bab" src="/svg/bab-1.svg" alt="bab1" role="button" />
-				<img className="svg-bab" src="/svg/bab-2.svg" alt="bab2" role="button" />
-				<img className="svg-bab" src="/svg/bab-3.svg" alt="bab3" role="button" />
-				<img className="svg-bab" src="/svg/bab-4.svg" alt="bab4" role="button" />
-				<img className="svg-bab" src="/svg/bab-5.svg" alt="bab5" role="button" />
+				{[1, 2, 3, 4, 5].map(num => (
+					<div onClick={() => goToBab(num)} role="button">
+						<img className="svg-bab" key={num} src={`/svg/bab-${num}.svg`} alt={`bab${num}`} />
+					</div>
+				))}
 			</div>
 		</>
 	)
