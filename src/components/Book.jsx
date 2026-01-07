@@ -108,6 +108,14 @@ function Book() {
 					</form>
 				</div>
 			</div>
+
+			<div className="go-bab">
+				<img className="svg-bab" src="/svg/bab-1.svg" alt="bab1" role="button" />
+				<img className="svg-bab" src="/svg/bab-2.svg" alt="bab2" role="button" />
+				<img className="svg-bab" src="/svg/bab-3.svg" alt="bab3" role="button" />
+				<img className="svg-bab" src="/svg/bab-4.svg" alt="bab4" role="button" />
+				<img className="svg-bab" src="/svg/bab-5.svg" alt="bab5" role="button" />
+			</div>
 		</>
 	)
 }

@@ -9,13 +9,12 @@
 
 body,
 html {
-	height: 100dvh;
+	/* height: 100dvh; */
 	width: 100dvw;
 	background: #0e1a26;
 	overflow: hidden;
 	display: flex;
 	justify-content: center;
-	align-items: center;
 }
 
 #root {
@@ -28,7 +27,8 @@ html {
 
 .container {
 	width: 100%;
-	height: 100%;
+	/* height: 100%; */
+	margin-top: 20px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -48,6 +48,10 @@ html {
 
 .pagination-container {
 	margin-top: 12px;
+	display: flex;
+	gap: 12px;
+	justify-content: center;
+	align-items: center;
 }
 
 .pagination {
@@ -65,6 +69,29 @@ html {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	margin-top: 12px;
 }
 /* flex flex-wrap items-center justify-center gap-8 mt-4 */
+
+.svg-bab {
+	width: 100%;
+	height: 100%;
+	max-width: 150px;
+	max-height: 50px;
+	cursor: pointer;
+}
+
+@media (max-width: 600px) {
+	.svg-bab {
+		max-width: 100px;
+		max-height: 25px;
+	}
+}
+
+.go-bab {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+	margin-top: 12px;
+	gap: 8px;
+}
